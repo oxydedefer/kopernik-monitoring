@@ -12,7 +12,7 @@ alerting:
   alertmanagers:
   - static_configs:
     - targets:
-      - localhost:9093
+      - alertmanager:9093
     scheme: http
     timeout: 10s
 
@@ -26,7 +26,7 @@ scrape_configs:
 
   - job_name: 'localhost'     # <-- j'ai mis ce titre de job mais le truc c'est de mettre un nom de job explicite
     static_configs:
-      - targets: ['127.0.0.1:9100']
+      - targets: ['node_exporter:9100']
     scrape_interval: 5s
 
     ### configuration de blackbox, notre probe http 
@@ -43,7 +43,7 @@ scrape_configs:
       - source_labels: [__address__]
         target_label: instance
       - target_label: __address__
-        replacement: localhost:9115  # The blackbox exporter's real hostname:port.
+        replacement: blackbox:9115  # The blackbox exporter's real hostname:port.
 
     static_configs:
       - targets: 
